@@ -1,0 +1,26 @@
+[
+  {
+    "category": "Précision (Nominal)",
+    "question": "Qui joue au festival de jazz de Strasbourg ?",
+    "expected_answer": "Le John Doe Quartet se produit au Strasbourg Jazz Festival - Mock Edition, qui a lieu au Caveau de Jazz.",
+    "expected_uids": ["dummy-001"]
+  },
+  {
+    "category": "Robustesse (Prix et Hallucination)",
+    "question": "Quel est le prix de l'atelier peinture numérique ?",
+    "expected_answer": "Je n'ai pas d'informations concernant le prix de l'atelier peinture numérique. Cependant, il se déroule à la Médiathèque Malraux à Strasbourg.",
+    "expected_uids": ["dummy-002"]
+  },
+  {
+    "category": "Négativité (Hors Contexte)",
+    "question": "Comment faire une quiche lorraine ?",
+    "expected_answer": "Je suis désolé, mais je n'ai pas d'informations à ce sujet. Mon domaine d'expertise se limite aux événements culturels de l'agenda.",
+    "expected_uids": []
+  },
+  {
+    "category": "Filtrage Temporel (Événement Passé)",
+    "question": "Peux-tu me donner des infos sur la conférence d'histoire de l'art ?",
+    "expected_answer": "La conférence sur l'Histoire de l'Art au Palais Universitaire a eu lieu il y a quelques jours. Cet événement est désormais terminé.",
+    "expected_uids": ["dummy-003"]
+  }
+]
