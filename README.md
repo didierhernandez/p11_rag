@@ -114,17 +114,18 @@ Utilisateur → [Streamlit UI] → [RAG Chain] → [FAISS Index] ← [Format iCa
 ### Installation
 1. **Cloner le dépôt** :
    ```bash
-   git clone [URL_DU_DEPOT]
-   cd poc
+   git clone https://github.com/didierhernandez/p11_rag
+   cd p11_rag/poc
    ```
 2. **Créer un environnement virtuel** :
    ```bash
    python -m venv venv
    source venv/bin/activate  # Linux/Mac
-   venv\Scripts\activate     # Windows
+   # venv\Scripts\activate     # Windows
    ```
 3. **Installer les dépendances** :
    ```bash
+   pip install --upgrade pip
    pip install -r requirements.txt
    ```
 4. **Configurer les variables d’environnement** :
