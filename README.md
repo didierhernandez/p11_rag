@@ -3,7 +3,43 @@
 **Un chatbot intelligent pour découvrir des événements culturels en temps réel, basé sur un système RAG (Retrieval-Augmented Generation) et les données d'[OpenAgenda](https://openagenda.com/) via [OpenDataSoft](https://public.opendatasoft.com/) et un début d'architecture multi-sources standardisée.**
 
 ---
+## Procédure de maintenance GitHub
 
+La **procédure stricte** pour maintenir ce dépôt propre et respecter le `.gitignore`.
+
+---
+
+### 1. Pourquoi certains dossiers sont ignorés ?
+
+Le fichier `.gitignore` est configuré pour exclure les dossiers volumineux ou sensibles :
+
+- **venv/** : Environnement virtuel (trop lourd).  
+- **data/** : Index FAISS locaux (générés dynamiquement par `indexer.py`).  
+- **.env** : Clés API privées (Sécurité).  
+- **__pycache__/** : Fichiers de compilation Python.  
+
+---
+
+### 2. Procédure de mise à jour sécurisée
+
+Si vous modifiez le code et souhaitez envoyer vos changements sur  
+[github.com/didierhernandez/p11_rag](https://github.com/didierhernandez/p11_rag) :
+
+### Bash
+
+```bash
+# 1. Vérifier l'état (ne doit pas afficher 'data' ou 'venv' dans les fichiers à ajouter)
+git status
+
+# 2. Ajouter uniquement les modifications de code
+git add .
+
+# 3. Valider avec un message clair
+git commit -m "Description de la modification (ex: mise à jour du prompt RAG)"
+
+# 4. Envoyer sur GitHub
+git push origin main
+```
 ## Présentation du projet
 
 ### Contexte métier
