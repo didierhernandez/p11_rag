@@ -9,11 +9,20 @@
 # Ce dernier, aujourd'hui "coquille vide", servira de socle technique unique pour indexer.py et MistralChat.py
 # afin d'alléger ce script et de centraliser la gestion des vecteurs (Phase 4 : Optimisation).
 
+# comptoir d’accueil dans la bibliothèque pour que les visiteurs (utilisateurs)
 import streamlit as st
+# embaucher un bibliothécaire spécialisé (l’IA Mistral) qui sait comprendre et répondre aux questions
+# utiliser un système de classification pour étiqueter chaque livre (embedding) afin de les retrouver rapidement
 from langchain_mistralai import ChatMistralAI, MistralAIEmbeddings
+# organiser les livres dans des rayonnages intelligents (FAISS) 
+#où chaque livre est placé en fonction de son contenu, pour une recherche ultra-rapide
 from langchain_community.vectorstores import FAISS
+# Prompt système local : préparer une fiche type pour poser une question au bibliothécaire, 
+#avec des cases à cocher pour préciser le contexte (ex : "Je veux des infos sur l’écologie")
 from langchain_core.prompts import ChatPromptTemplate
+# un filtre qui transforme la réponse du bibliothécaire en une phrase claire et compréhensible pour le visiteur (utilisateur)
 from langchain_core.output_parsers import StrOutputParser
+# C’est un système qui permet de transmettre directement la question du visiteur au bibliothécaire sans la modifier
 from langchain_core.runnables import RunnablePassthrough
 # Pour générer la date du jour dynamiquement et éviter les erreurs de calendrier
 from datetime import datetime
@@ -51,7 +60,7 @@ def get_vector_store():
     """
     Charge la base de données vectorielle FAISS existante en utilisant les chemins configurés.
     Note : Cette fonction est destinée à être migrée vers 'utils/vector_store.py' pour 
-    respecter la séparation des préoccupations.
+    respecter la séparation des responsabilités (logique d’UI vs logique de stockage vectoriel).
     """
     if not MISTRAL_API_KEY:
         st.error("Clé API Mistral manquante dans la configuration.")
@@ -114,7 +123,7 @@ def main():
             st.markdown(prompt)
 
         # 2. Préparer le contexte RAG
-        # On sollicite ici la logique vectorielle (actuellement locale, bientôt dans utils/vector_store.py)
+        # On sollicite ici la logique vectorielle (actuellement dans ce fichier, bientôt dans utils/vector_store.py)
         vector_store = get_vector_store()
         
         if vector_store:
@@ -156,16 +165,30 @@ def main():
 
             # Etape 7 : Assemblage de la Chaîne RAG
             # On récupère la date du jour formatée proprement pour que l'IA sache se situer dans le temps
+            # Contexte global : Imaginez que vous êtes dans une bibliothèque. Vous posez une question au bibliothécaire, qui va chercher des livres pertinents, les lit, et vous donne une réponse claire et précise en tenant compte de la date du jour.
+            # contexte étape 7 : processus complet pour répondre à une question : le bibliothécaire va suivre une série d’étapes pour trouver les informations nécessaires et formuler une réponse.
+
+            # Le bibliothécaire regarde sa montre pour noter la date du jour (ex : "6 mars 2026"). Cela lui permet de situer les informations qu’il va donner dans le temps, par exemple pour dire : "Aujourd’hui, les dernières données disponibles sur ce sujet datent de 2025."
             today_str = datetime.now().strftime("%d %B %Y")
 
+            # Le bibliothécaire prépare son "plan de travail" pour répondre à la question.
+            #Ce plan est une série d’étapes logiques qu’il va suivre
             rag_chain = (
                 {
+                    # "context": Le bibliothécaire va chercher dans les rayonnages (la base de données) les livres (documents) qui pourraient contenir la réponse à la question.
+                    #retriever : C’est comme si le bibliothécaire utilisait un index ou un catalogue pour trouver rapidement les livres pertinents. 
+                    #format_docs : Une fois les livres trouvés, il les ouvre et en extrait les passages les plus utiles, comme si il surlignait les phrases clés.
                     "context": retriever | format_docs, 
+                    # Le bibliothécaire prend la question telle quelle, sans la modifier, comme si vous lui donniez directement votre demande : "Quels sont les impacts écologiques des énergies renouvelables en 2026 ?"
                     "question": RunnablePassthrough(),
+                    # Le bibliothécaire ajoute automatiquement la date du jour à sa recherche, comme s’il notait en haut de sa fiche : "Réponse donnée le 6 mars 2026". Cela permet à l’IA de savoir si les informations qu’elle utilise sont à jour ou non
                     "current_date": lambda x: today_str  # Injection dynamique de la date réelle
                 }
+                # Le bibliothécaire utilise une fiche standardisée (le "prompt template") pour organiser sa réponse. Cette fiche contient des cases à remplir, comme : "Voici ce que j’ai trouvé dans les livres : [contexte]" "Voici la question posée : [question]" "Nous sommes le : [date du jour]"
                 | prompt_template
+                # Le bibliothécaire transmet cette fiche remplie à un expert (l’IA, ici llm pour Large Language Model), qui va lire les informations, les analyser, et rédiger une réponse claire et détaillée, comme s’il écrivait un résumé personnalisé pour vous.
                 | llm
+                # Enfin, le bibliothécaire passe la réponse de l’expert dans un filtre (StrOutputParser) pour la rendre simple et compréhensible, comme s’il reformulait une explication technique en termes accessibles : "En 2026, les énergies renouvelables réduisent les émissions de CO2 de X%, selon les dernières études."
                 | StrOutputParser()
             )
 

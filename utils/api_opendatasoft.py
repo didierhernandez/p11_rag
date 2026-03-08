@@ -120,7 +120,7 @@ class OpenDataSoftProvider(EventProvider):
             # --- SÉCURISATION DES COLONNES ---
             expected_columns = [
                 'title_fr', 'description_fr', 'conditions_fr', 
-                'location_name', 'location_address', 'canonicalurl',
+                'location_name', 'location_address', 'location_city','canonicalurl',
                 'firstdate_begin', 'lastdate_end', 'uid'
             ]
             
@@ -160,9 +160,15 @@ class OpenDataSoftProvider(EventProvider):
             df[self.COL_DTEND] = df['end_dt'].dt.strftime('%Y-%m-%dT%H:%M:%SZ')
 
             # Reconstruction du lieu
+            #df[self.COL_LOCATION] = (
+            #    df['location_name'] + " (" + df['location_address'] + ")" + " (" + df['location_city'] + ")"
+            #).replace(" ()", "Lieu inconnu")
+            # Conversion forcée en chaîne avant concaténation
             df[self.COL_LOCATION] = (
-                df['location_name'] + " (" + df['location_address'] + ")"
-            ).replace(" ()", "Lieu inconnu")
+                df['location_name'].astype(str).replace('nan', '') + " (" + 
+                df['location_address'].astype(str).replace('nan', '') + ") (" + 
+                df['location_city'].astype(str).replace('nan', '') + ")"
+            ).str.replace(" ()", "Lieu inconnu")
 
             df[self.COL_URL] = df['canonicalurl']
 

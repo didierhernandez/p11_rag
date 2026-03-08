@@ -42,19 +42,22 @@ def get_event_provider() -> EventProvider:
         >>> df = provider.fetch_events()
     """
     
-    logger.info(f"Initialisation du provider d'événements : {EVENT_SOURCE}")
+    logger.info(f"Initialisation du provider : {EVENT_SOURCE}")
 
-    if EVENT_SOURCE == "OPENAGENDA":
+    if EVENT_SOURCE in ["OPENAGENDA", "OA"]:
         return OpenAgendaProvider()
         
-    elif EVENT_SOURCE == "OPENDATASOFT":
+    elif EVENT_SOURCE in ["OPENDATASOFT", "ODS"]:
         return OpenDataSoftProvider()
         
-    elif EVENT_SOURCE == "DUMMY":
-        return DummyProvider()
-
     elif EVENT_SOURCE == "NEXTCLOUD":
         return NextcloudProvider()
 
+    # On ne tombe sur DUMMY que si c'est explicitement demandé
+    elif EVENT_SOURCE == "DUMMY":
+        return DummyProvider()
+    
     else:
-        raise ValueError(f"Source d'événement inconnue : {EVENT_SOURCE}. Vérifiez votre fichier .env.")
+        # Si on arrive ici, c'est qu'on ne sait vraiment pas quoi faire
+        logger.error(f"Source inconnue '{EVENT_SOURCE}', bascule de sécurité sur Dummy.")
+        return DummyProvider()

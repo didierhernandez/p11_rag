@@ -14,75 +14,51 @@ l'ensemble du code partage la même configuration.
 """
 
 import os
-# module standard Python qui gère les messages de journalisation
 import logging
 from pathlib import Path
 from dotenv import load_dotenv
 
-load_dotenv()
+# --- CHEMIN SÉCURISÉ POUR LA RACINE 'poc' ---
+# On part de poc/utils/config.py, on remonte d'UN seul niveau pour être dans 'poc'
+BASE_DIR = Path(__file__).resolve().parent.parent 
+ENV_PATH = BASE_DIR / ".env"
 
-# --- RÉPERTOIRES DU PROJET ---
-BASE_DIR = Path(__file__).resolve().parent.parent
+# Chargement avec override pour nettoyer les anciennes variables système et donne la priorité à la variable de .env
+#load_dotenv(dotenv_path=ENV_PATH, override=True)
+# Chargement sans override pour que Python regarde si la variable existe déjà dans le système (ton export DUMMY). Si oui, il n'y touche pas. Si non, il prend celle du .env
+load_dotenv(dotenv_path=ENV_PATH, override=False)
+
+# --- DEBUG ---
+# print(f"DEBUG: BASE_DIR est {BASE_DIR}")
+# print(f"DEBUG: .env cherché ici : {ENV_PATH}")
+
+# --- RÉPERTOIRES ---
 DATA_DIR = BASE_DIR / "data"
 FAISS_INDEX_DIR = DATA_DIR / "faiss_index"
-
 DATA_DIR.mkdir(exist_ok=True)
 
 # --- CONFIGURATION DES SOURCES ---
-EVENT_SOURCE = os.getenv("EVENT_SOURCE", "OPENAGENDA").upper()
+EVENT_SOURCE = os.getenv("EVENT_SOURCE", "DUMMY").strip().upper()
 
-# --- CLÉS API ET IDS ---
+# --- CLÉS API ---
 MISTRAL_API_KEY = os.getenv("MISTRAL_API_KEY")
 OPENAGENDA_ID = os.getenv("OPENAGENDA_ID")
 OPENAGENDA_API_KEY = os.getenv("OPENAGENDA_API_KEY")
 
-# --- PARAMÈTRES DU MODÈLE RAG ---
+# --- PARAMÈTRES RAG ---
 EMBEDDING_MODEL = "mistral-embed"
 CHAT_MODEL = "mistral-large-latest"
 CHUNK_SIZE = 1000
 CHUNK_OVERLAP = 100
 
 def check_config():
-    """
-    Vérifie que les variables essentielles sont présentes dans l'environnement.
-
-    Cette fonction est appelée au démarrage de l'application pour s'assurer
-    que les clés d'API nécessaires (Mistral, OpenAgenda, ODS, etc.) sont bien définies
-    en fonction de la source d'événements sélectionnée (`EVENT_SOURCE`).
-
-    Raises:
-        ValueError: Si une ou plusieurs variables de configuration critiques sont manquantes.
-    """
+    """Vérification stricte de la config."""
     missing = []
-
-    # 1. Clé critique pour tous les modes (LLM + Embeddings)
-    if not MISTRAL_API_KEY: 
-        missing.append("MISTRAL_API_KEY")
+    if not MISTRAL_API_KEY: missing.append("MISTRAL_API_KEY")
     
-    # 2. Vérifications spécifiques par source
-    source = EVENT_SOURCE.upper()
-    
-    if source == "OPENAGENDA":
+    if EVENT_SOURCE == "OPENAGENDA":
         if not OPENAGENDA_API_KEY: missing.append("OPENAGENDA_API_KEY")
         if not OPENAGENDA_ID: missing.append("OPENAGENDA_ID")
-        
-    elif source == "ODS":
-        # OpenDataSoft peut être public, mais si une clé est requise pour certains datasets :
-        # if not ODS_API_KEY: missing.append("ODS_API_KEY")
-        pass
-        
-    elif source == "NEXTCLOUD":
-        if not os.getenv("NEXTCLOUD_URL"): missing.append("NEXTCLOUD_URL")
-        if not os.getenv("NEXTCLOUD_USER"): missing.append("NEXTCLOUD_USER")
-        if not os.getenv("NEXTCLOUD_PASSWORD"): missing.append("NEXTCLOUD_PASSWORD")
-        
-    elif source == "DUMMY":
-        # Mode simulation : aucune clé source requise
-        logging.info("Mode DUMMY activé : Validation des sources externes ignorée.")
     
     if missing:
-        error_msg = f"Configuration incomplète pour la source {source}. Variables manquantes : {', '.join(missing)}"
-        logging.error(error_msg)
-        raise ValueError(error_msg)
-        
-    logging.info(f"Configuration validée avec succès pour la source : {source}")
+        raise ValueError(f"Variables manquantes dans {ENV_PATH} : {', '.join(missing)}")
