@@ -52,7 +52,8 @@ CHUNK_SIZE = 1000
 CHUNK_OVERLAP = 100
 
 def check_config():
-    """Vérification stricte de la config."""
+    """Vérification stricte de la config 
+    didier : à faire évoluer pour mieux intégrer automatiquement les différents providers."""
     missing = []
     if not MISTRAL_API_KEY: missing.append("MISTRAL_API_KEY")
     

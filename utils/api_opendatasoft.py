@@ -114,7 +114,7 @@ class OpenDataSoftProvider(EventProvider):
             logger.warning("Aucun événement récupéré depuis OpenDataSoft.")
             return pd.DataFrame()
 
-        try:
+        try: #Didier : appliquer partout une conversion forcée en chaîne avant concaténation
             df = pd.DataFrame(all_events)
 
             # --- SÉCURISATION DES COLONNES ---
@@ -130,7 +130,7 @@ class OpenDataSoftProvider(EventProvider):
                 else:
                     df[col] = df[col].fillna("")
 
-            # NETTOYAGE STRICT
+            # NETTOYAGE STRICT sur le titre pour supprimer les titres "vides"
             df = df[df['title_fr'].str.strip().astype(bool)]
         
             # Mapping iCalendar

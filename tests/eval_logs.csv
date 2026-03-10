@@ -1,0 +1,56 @@
+timestamp,category,question,expected_answer,generated_answer,similarity_score,status
+2026-03-10T12:14:26.048082,Précision (Nominal),Qui joue au festival de jazz de Strasbourg ?,"Le John Doe Quartet se produit au Strasbourg Jazz Festival - Mock Edition, qui a lieu au Caveau de Jazz.","**Réponse de Puls-Events :**
+
+Pour le **Strasbourg Jazz Festival - Mock Edition** qui a lieu **ce soir (10 mars 2026 à 19h00** au **Caveau de Jazz, 10 rue des Orfèvres à Strasbourg**, c'est le **John Doe Quartet** qui se produira sur scène.
+
+Bonne soirée musicale ! 🎷✨
+
+*(N'hésitez pas si vous souhaitez d'autres suggestions pour les jours à venir.)*",0.9033,SUCCÈS
+2026-03-10T12:14:31.676777,Robustesse (Prix et Hallucination),Quel est le prix de l'atelier peinture numérique ?,"Je n'ai pas d'informations concernant le prix de l'atelier peinture numérique. Cependant, il se déroule à la Médiathèque Malraux à Strasbourg.","**Réponse de Puls-Events :**
+
+Bonjour !
+
+D’après les informations disponibles, l’**Atelier Peinture Numérique** à la **Médiathèque Malraux de Strasbourg** (prévu le **11 mars 2026 à 20h30**) est mentionné sans indication de tarif.
+
+Je n’ai malheureusement pas plus de détails à ce sujet. Je vous invite à contacter directement la médiathèque pour obtenir cette information.
+
+En revanche, si vous cherchez une sortie ce soir (**10 mars 2026**), le **Strasbourg Jazz Festival (Mock Edition)** a lieu au **Caveau de Jazz** à 19h – une occasion parfaite pour découvrir du jazz dans une ambiance intimiste !
+
+Bonne journée, et n’hésitez pas si vous souhaitez d’autres suggestions. 😊",0.8841,SUCCÈS
+2026-03-10T12:14:38.943914,Négativité (Hors Contexte),Comment faire une quiche lorraine ?,"Je suis désolé, mais je n'ai pas d'informations à ce sujet. Mon domaine d'expertise se limite aux événements culturels de l'agenda.","Je suis désolé, mais je ne dispose pas d'informations sur la préparation culinaire comme la quiche lorraine. Mon rôle est de vous aider à trouver des idées de sorties culturelles à Strasbourg en me basant sur les événements à venir.
+
+En revanche, voici ce que je peux vous proposer pour ce week-end et la semaine prochaine :
+
+---
+**🎷 Strasbourg Jazz Festival - Mock Edition**
+📍 *Lieu* : Caveau de Jazz, 10 rue des Orfèvres, Strasbourg
+📅 *Date* : **Ce soir, 10 mars 2026 à 19h00**
+🎤 *Détails* : Un concert de jazz avec le *John Doe Quartet* pour une ambiance musicale intimiste.
+
+---
+**🎨 Atelier Peinture Numérique**
+📍 *Lieu* : Médiathèque Malraux, Strasbourg
+📅 *Date* : **Demain, 11 mars 2026 à 20h30**
+🖌️ *Détails* : Une initiation à la création artistique sur tablette graphique. Parfait pour découvrir de nouvelles techniques !
+
+---
+Si vous souhaitez explorer d’autres options ou des événements ultérieurs, n’hésitez pas à me le demander. Bonne journée ! 😊",0.8463,SUCCÈS
+2026-03-10T12:14:47.962908,Filtrage Temporel (Événement Passé),Peux-tu me donner des infos sur la conférence d'histoire de l'art ?,La conférence sur l'Histoire de l'Art au Palais Universitaire a eu lieu il y a quelques jours. Cet événement est désormais terminé.,"**Réponse de Puls-Events :**
+
+Bonjour !
+
+D’après les informations disponibles, voici ce que je peux vous partager concernant la **Conférence Histoire de l'Art** :
+
+- **Thème** : Une rétrospective sur la Renaissance Italienne.
+- **Lieu** : Palais Universitaire, Strasbourg.
+- **Date et heure** : **28 février 2026 à 14h00** (heure locale).
+
+⚠️ **Attention** : Cet événement a déjà eu lieu (nous sommes le 10 mars 2026). Je n’ai malheureusement pas de détails sur d’éventuelles rediffusions ou captations.
+
+---
+**Besoin d’autres idées de sorties ?**
+Je peux vous recommander :
+- **L’Atelier Peinture Numérique** à la Médiathèque Malraux (demain, 11 mars à 20h30).
+- Un concert de jazz au **Caveau de Jazz** (ce soir, 10 mars à 19h).
+
+N’hésitez pas si vous souhaitez plus d’infos ! 😊",0.8754,SUCCÈS

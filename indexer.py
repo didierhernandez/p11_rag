@@ -13,7 +13,7 @@ from langchain_mistralai import MistralAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from pathlib import Path # Didier : peut-être plus nécessaire
 
-# --- FIX CRITIQUE : Localiser le .env à la racine du projet ---
+# Didier : à titre d'historique--- FIX CRITIQUE : Localiser le .env à la racine du projet ---
 # On part de poc/indexer.py, on remonte d'un niveau pour trouver .env
 #env_path = Path(__file__).resolve().parent.parent / ".env"
 #load_dotenv(dotenv_path=env_path)
@@ -48,6 +48,8 @@ def create_documents(df, provider):
             "url": str(row.get(provider.COL_URL, '')),
             "uid": str(row.get(provider.COL_UID, ''))
         }
+        # création par Langchain des données page_content correspondants à COL_DESCRIPTION à vectoriser 
+        #et des données brutes à stocker dans le dictionnaire
         documents.append(Document(page_content=page_content, metadata=metadata))
     return documents
     

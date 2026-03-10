@@ -1,7 +1,7 @@
 # Ce fichier logging_config.py dans le dossier poc/utils : 
 #Configuration du logging pour suivre le comportement de l'application. 
-#Suggestion : Le code fourni utilise logging, il serait bon d'avoir un fichier de configuration dédié 
-#ou une fonction setup comme utils.setup_logging).
+#Suggestion : Le code fourni utilise logging ce fichier de configuration dédié 
+#ou une fonction setup : utils.setup_logging.
 
 """
 Module de configuration du système de journalisation (logging).
